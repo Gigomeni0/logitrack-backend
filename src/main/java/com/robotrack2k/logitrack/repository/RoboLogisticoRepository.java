@@ -1,4 +1,7 @@
 package com.robotrack2k.logitrack.repository;
 
-public class RoboLogisticoRepository {
-}
+import com.robotrack2k.logitrack.model.RoboLogistico;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+public interface RoboLogisticoRepository extends JpaRepository<RoboLogistico, Long> {}
