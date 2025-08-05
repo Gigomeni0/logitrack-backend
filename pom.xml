@@ -8,7 +8,7 @@
 		<version>3.4.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.robotrack2k</groupId>
+	<groupId>com.ags</groupId>
 	<artifactId>logitrack</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>logitrack</name>
@@ -28,6 +28,8 @@
 	</scm>
 	<properties>
 		<java.version>17</java.version>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
 	</properties>
 	<dependencies>
 		<dependency>
