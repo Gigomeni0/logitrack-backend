@@ -107,7 +107,7 @@ PATCH /api/robos/5/bateria
 
 
 ## 8. Estrutura de Pacotes
-A estrutura fina l dos pacotes se encontra assim:
+A estrutura final dos pacotes se encontra assim:
 ```
 com.ags.logitrack
  ├─ config
@@ -129,20 +129,33 @@ com.ags.logitrack
 
 ---
 
-## 9. Próximos Passos Naturais
+## 9. Segurança (estado atual e observações)
 
-- Validações (bateria 0–100, enums corretos etc.).
-- DTOs (desacoplar entidade da borda).
-- Filtros e paginação.
-- Endpoints para eventos e entregas.
-- Swagger/OpenAPI.
-- Autenticação.
-- Testes (unitário e integração).
+Estado atual (mínimo para desenvolvimento):
+- CORS liberado apenas para http://localhost:8081 (não é wildcard) e com credenciais permitidas.
+- H2 Console habilitado em /h2-console.
+- Banco H2 file-based com usuário admin e senha simples (ambiente local).
+- Endpoints sem autenticação ou autorização.
+- PATCH permite alterar status e nível de bateria diretamente sem validação.
+- Nenhuma restrição de taxa (rate limiting) ou logging de alteração sensível.
 
----
+Riscos / pontos de atenção se isso for além de ambiente local:
+- H2 Console exposto pode revelar estrutura e dados.
+- Credenciais triviais de banco.
+- Possibilidade de inserir valores fora de faixa (ex: bateria negativa ou >100).
+- CORS com credenciais + ausência de autenticação facilita CSRF/XSS indiretamente em cenários futuros.
+- Falta de segregação entre modelos internos e payload externo (sem DTO) abre porta para over-posting.
 
-## 10. Em Uma Frase
+Decisões implícitas:
+- Priorização de velocidade para montar cenário funcional para o front.
+- Escopo claramente “dev sandbox” (semente rica + persistência local + ausência de regras rígidas).
 
-De um CRUD estático para uma mini simulação logística pronta para evoluir.
-
----
+Próximos cuidados recomendados:
+1. Introduzir autenticação (JWT ou session + Spring Security).
+2. Desabilitar H2 Console fora de profile dev.
+3. Colocar variáveis sensíveis em .env / profiles.
+4. Validar entrada (Bean Validation) e normalizar enums.
+5. Adicionar DTOs + mapeamento (ModelMapper ou manual).
+6. Definir política de CORS por profile.
+7. Auditar mudanças críticas (status, bateria).
+8. Preparar migração futura para Postgres ou outro RDBMS.
